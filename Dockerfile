@@ -1,5 +1,5 @@
 # استخدام نسخة بايثون 3.10 مستقرة وخفيفة
-FROM python:3.10-slim
+FROM python:3.11
 
 # تحديث النظام وتثبيت الأدوات الأساسية اللي بيحتاجها البوت (زي Git و ffmpeg)
 RUN apt-get update && apt-get install -y git bash ffmpeg curl wget
