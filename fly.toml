@@ -12,4 +12,4 @@ processes = [ "app" ]
 [[vm]]
 cpu_kind = "performance"
 cpus = 8
-memory = "60gb"
+memory = 61440
