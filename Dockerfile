@@ -13,8 +13,8 @@ COPY installer.sh .
 
 RUN bash installer.sh
 
-# حل مشكلة بايثون 3.13 عن طريق تثبيت المكتبة الناقصة يدوياً
-RUN pip3 install imghdr
+# حل مشكلة بايثون 3.13: جلب ملف imghdr المحذوف وزرعه داخل النظام
+RUN python3 -c "import urllib.request; urllib.request.urlretrieve('https://raw.githubusercontent.com/python/cpython/v3.12.0/Lib/imghdr.py', '/usr/local/lib/python3.13/imghdr.py')"
 
 # changing workdir
 WORKDIR "/root/TeamUltroid"
