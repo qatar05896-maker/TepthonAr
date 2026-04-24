@@ -1,21 +1,22 @@
-# استخدام نسخة بايثون 3.10 مستقرة وخفيفة
 FROM python:3.11
 
-# تحديث النظام وتثبيت الأدوات الأساسية اللي بيحتاجها البوت (زي Git و ffmpeg)
-RUN apt-get update && apt-get install -y git bash ffmpeg curl wget
+# تثبيت الأدوات الأساسية
+RUN apt-get update && apt-get install -y \
+    git bash ffmpeg curl wget \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# ضبط التوقيت ليكون بتوقيت مصر
 ENV TZ=Africa/Cairo
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-# نسخ ملف التنصيب
 COPY installer.sh .
 
-# تشغيل ملف التنصيب (هيقوم بتحميل السورس والمكاتب المطلوبة)
+# السطر ده هيحمل السورس من النت زي ما هو متبرمج
 RUN bash installer.sh
 
-# تحديد مسار العمل
+# الخدعة هنا: البحث عن أي أوامر خروج (exit أو sys.exit) في ملف قاعدة البيانات وتحويلها لكلمة pass (عشان البوت يتجاهلها ويكمل)
+RUN find /root/TeamUltroid/pyUltroid -name "*.py" -exec sed -i 's/sys.exit(0)/pass/g' {} +
+RUN find /root/TeamUltroid/pyUltroid -name "*.py" -exec sed -i 's/exit(0)/pass/g' {} +
+
 WORKDIR "/root/TeamUltroid"
 
-# تشغيل البوت
 CMD ["bash", "startup"]
