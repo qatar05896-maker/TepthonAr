@@ -5,13 +5,16 @@
 
 FROM theteamultroid/ultroid:main
 
-# set timezone
-ENV TZ=Asia/Baghdad
+# ضبط التوقيت ليكون بتوقيت مصر
+ENV TZ=Africa/Cairo
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 COPY installer.sh .
 
 RUN bash installer.sh
+
+# حل مشكلة بايثون 3.13 عن طريق تثبيت المكتبة الناقصة يدوياً
+RUN pip3 install imghdr
 
 # changing workdir
 WORKDIR "/root/TeamUltroid"
