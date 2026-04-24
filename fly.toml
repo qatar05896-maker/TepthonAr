@@ -1,4 +1,4 @@
-app = "tepthon_ar"
+app = "tepthonarabic"
 primary_region = "ams"
 
 [http_service]
